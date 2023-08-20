@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "fastapi-htmx"
+version = "0.1.0"
+description = "testing both fastapi, and htmx"
+authors = ["Stefan Bondzulic <stefanbondzulic@gmail.com>"]
+readme = "README.md"
+packages = [{include = "fastapi_htmx"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.31.0"
+fastapi = "^0.101.1"
+langchain = "^0.0.268"
+supabase = "^1.0.4"
+uvicorn = "^0.23.2"
+openai = "^0.27.8"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start = "src.coverages-ai.main:start"

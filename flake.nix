@@ -1,8 +1,9 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
     devenv.url = "github:cachix/devenv";
+    nixpkgs-python.url = "github:cachix/nixpkgs-python";
   };
 
   nixConfig = {
@@ -10,7 +11,7 @@
     extra-substituters = "https://devenv.cachix.org";
   };
 
-  outputs = { self, nixpkgs, devenv, systems, ... } @ inputs:
+  outputs = { nixpkgs, devenv, systems, ... } @ inputs:
     let
       forEachSystem = nixpkgs.lib.genAttrs (import systems);
     in
@@ -25,12 +26,17 @@
               inherit inputs pkgs;
               modules = [
                 {
-                  # https://devenv.sh/reference/options/
-                  packages = [ pkgs.hello ];
+                  packages = with pkgs; [];
 
-                  enterShell = ''
-                    hello
-                  '';
+                  languages.python = {
+                    enable = true;
+                    package = pkgs.python311;
+                    poetry = {
+                      enable = true;
+                      install.enable = true;
+                      activate.enable = true;
+                    };
+                  };
                 }
               ];
             };
